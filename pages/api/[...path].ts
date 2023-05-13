@@ -16,7 +16,7 @@ export default async function handler(
 ) {
     req.headers.cookie = '';
     proxy.web(req, res, {
-        target: process.env.API_URL,
+        target: 'https://js-post-api.herokuapp.com',
         changeOrigin: true,
         selfHandleResponse: false
     })
