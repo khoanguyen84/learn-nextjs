@@ -17,7 +17,8 @@ export default async function handler(
     if (req.method !== 'GET') {
         return res.status(405).json({ payload: { data: [], pagination: {} }, message: 'Method is not supported', code: 450 })
     }
-    const response = await fetch('https://js-post-api.herokuapp.com/api/products?_page=1');
+    const { _page } = req.query
+    const response = await fetch(`https://js-post-api.herokuapp.com/api/products?_page=${_page}`);
     const result = await response.json();
     res.status(200).json({ payload: result, message: 'success', code: 200 })
 }
