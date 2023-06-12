@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-// import Header from "../components/common/header";
+import { AdminLayout, MainLayout } from "../components/layout";
+import Header from "../components/common/header";
 
 
 export interface AboutPageProps { }
 
-const Header = dynamic(() => import('../components/common/header'), { ssr: false })
+// const Header = dynamic(() => import('../components/common/header'), { ssr: false })
 
 export default function AboutPage(props: AboutPageProps) {
     const router = useRouter();
     const [posts, setPosts] = useState([]);
     const page = router.query?.page;
 
-    console.log(router.query);
-    
     useEffect(() => {
-        if(!page) return;
+        if (!page) return;
 
         (async function () {
             const res = await fetch(`https://js-post-api.herokuapp.com/api/posts?_page=${page}`);
@@ -32,7 +31,7 @@ export default function AboutPage(props: AboutPageProps) {
             query: {
                 page: (Number(router.query?.page) || 1) + 1
             }
-        }, undefined, {shallow: true})
+        }, undefined, { shallow: true })
     }
     const handlePreviousPageClick = () => {
         router.push({
@@ -40,8 +39,9 @@ export default function AboutPage(props: AboutPageProps) {
             query: {
                 page: (Number(router.query?.page) || 1) - 1
             }
-        }, undefined, {shallow: true})
+        }, undefined, { shallow: true })
     }
+
     return (
         <>
             <div>About Page</div>
@@ -57,4 +57,12 @@ export default function AboutPage(props: AboutPageProps) {
             <button onClick={handleNextPageClick}>Next Page</button>
         </>
     )
+}
+
+AboutPage.Layout = MainLayout
+
+export async function getStaticProps() {
+    return {
+        props: {}
+    }
 }
